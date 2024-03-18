@@ -7,7 +7,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const compression = require("compression");
 const cors = require("cors");
 const helmet = require("helmet");
-const ApiError = require("./utils/apiError");
+const apiErrorHandler = require("./middleware/apiErrorHandler");
 
 // Secure apps by setting various HTTP headers
 app.use(helmet());
@@ -30,9 +30,12 @@ app.options("*", cors());
 // Routes
 app.use("/", routes);
 
+// send back a 500 error for any internal errors
+app.use(apiErrorHandler);
+
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
+  res.status(httpStatus.NOT_FOUND).json({ message: "Not found" });
 });
 
 module.exports = app;

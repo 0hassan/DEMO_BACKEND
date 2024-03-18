@@ -1,13 +1,15 @@
-class ApiError extends Error {
-  constructor(statusCode, message, isOperational = true, stack = "") {
-    super(message);
-    this.statusCode = statusCode;
-    this.isOperational = isOperational;
-    if (stack) {
-      this.stack = stack;
-    } else {
-      Error.captureStackTrace(this, this.constructor);
-    }
+class ApiError {
+  constructor(code, message) {
+    this.code = code;
+    this.message = message;
+  }
+
+  static badRequest(msg) {
+    return new ApiError(400, msg);
+  }
+
+  static internal(msg) {
+    return new ApiError(500, msg);
   }
 }
 
