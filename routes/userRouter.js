@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const validate = require("../middleware/validate");
+const { userValidation } = require("../validations");
 
 // Path: controllers/userController.js
 const { userController } = require("../controllers/index");
 
 router
   .route("/:email")
-  .get(userController.getUserByEmail)
+  .get(validate(userValidation.getUser), userController.getUserByEmail)
   .put(userController.updateUser)
   .delete(userController.deleteUser);
 

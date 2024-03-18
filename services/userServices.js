@@ -3,6 +3,10 @@ const { User, OTP } = require("../models");
 const httpStatus = require("http-status");
 const ApiError = require("../utils/apiError");
 
+/**
+ * Get all users
+ * @returns {Promise<User[]>}
+ */
 const getAllUsers = async () => {
   try {
     const users = await User.find();
@@ -15,6 +19,11 @@ const getAllUsers = async () => {
   }
 };
 
+/**
+ * Create a new user
+ * @param {Object} userBody
+ * @returns {Promise<User>}
+ */
 const createUser = async (userBody) => {
   try {
     const user = await User.create(userBody);
@@ -24,6 +33,11 @@ const createUser = async (userBody) => {
   }
 };
 
+/**
+ * Get user by email
+ * @param {string} email
+ * @returns {Promise<User>}
+ */
 const getUserByEmail = async (email) => {
   try {
     const user = await User.findOne({ email });
@@ -36,7 +50,12 @@ const getUserByEmail = async (email) => {
   }
 };
 
-// Update user by email
+/**
+ * Update user by email
+ * @param {string} email
+ * @param {Object} updateBody
+ * @returns {Promise<User>}
+ */
 const updateUser = async (email, updateBody) => {
   const user = await getUserByEmail(email);
   // Validate if email is already taken
@@ -51,9 +70,26 @@ const updateUser = async (email, updateBody) => {
   return user;
 };
 
+/**
+ * Delete user by email
+ * @param {string} email
+ * @returns {Promise<User>}
+ */
+const deleteUser = async (email) => {
+  try {
+    const user = await User.findOneAndDelete({ email });
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, "User Does Not Exist");
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllUsers,
   createUser,
   getUserByEmail,
   updateUser,
+  deleteUser,
 };

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const validate = require("../middleware/validate");
 
 // Path: controllers/authController.js
 const { authController } = require("../controllers/index");

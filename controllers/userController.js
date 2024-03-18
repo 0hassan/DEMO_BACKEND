@@ -2,6 +2,9 @@ const httpStatus = require("http-status");
 const userServices = require("../services/userServices");
 const catchAsync = require("../utils/catchAsync");
 
+// Get all users
+// GET /users
+// Public
 const getAllUsers = catchAsync(async (req, res, next) => {
   try {
     const users = await userServices.getAllUsers();
@@ -11,6 +14,9 @@ const getAllUsers = catchAsync(async (req, res, next) => {
   }
 });
 
+// Get user by email
+// GET /users/:email
+// Public
 const getUserByEmail = async (req, res, next) => {
   try {
     const user = await userServices.getUserByEmail(req.params.email);
@@ -20,6 +26,9 @@ const getUserByEmail = async (req, res, next) => {
   }
 };
 
+// Create a new user
+// POST /users
+// Public
 const createUser = catchAsync(async (req, res, next) => {
   try {
     const user = await userServices.createUser(req.body);
@@ -29,6 +38,9 @@ const createUser = catchAsync(async (req, res, next) => {
   }
 });
 
+// Update user by email
+// PUT /users/:email
+// Public
 const updateUser = async (req, res, next) => {
   try {
     const user = await userServices.updateUser(req.params.email, req.body);
@@ -38,6 +50,9 @@ const updateUser = async (req, res, next) => {
   }
 };
 
+// Delete user by email
+// DELETE /users/:email
+// Public
 const deleteUser = async (req, res, next) => {
   try {
     await userServices.deleteUser(req.params.email);
@@ -47,6 +62,7 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+// Export the functions
 module.exports = {
   getAllUsers,
   getUserByEmail,
