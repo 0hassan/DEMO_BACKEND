@@ -1,52 +1,22 @@
-const { userModel } = require("../models/index");
-const bcrypt = require("bcrypt");
+const httpStatus = require("http-status");
+const userServices = require("../services/userServices");
+const catchAsync = require("../utils/catchAsync");
 
-const getAllUsers = async (req, res) => {
-  try {
-    const users = await userModel.getAllUsers();
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+const getAllUsers = catchAsync(async (req, res) => {
+  const users = await userServices.getAllUsers();
+  res.json(users);
+});
 
-const getUserById = async (req, res) => {
-  try {
-    const user = await userModel.getUserById(req.params.id);
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+const getUserById = async (req, res) => {};
 
-const createUser = async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    req.body.password = hashedPassword;
-    const user = await userModel.createUser(req.body);
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+const createUser = catchAsync(async (req, res) => {
+  const user = await userServices.createUser(req.body);
+  res.status(httpStatus.CREATED).json(user);
+});
 
-const updateUser = async (req, res) => {
-  try {
-    const user = await userModel.updateUser(req.params.id, req.body);
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+const updateUser = async (req, res) => {};
 
-const deleteUser = async (req, res) => {
-  try {
-    const user = await userModel.deleteUser(req.params.id);
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+const deleteUser = async (req, res) => {};
 
 module.exports = {
   getAllUsers,
