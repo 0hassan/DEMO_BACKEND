@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const process = require("process");
+const jwt = require("jsonwebtoken");
 
 const userSchema = mongoose.Schema(
   {
@@ -35,11 +37,30 @@ const userSchema = mongoose.Schema(
       },
       private: true, // used by the toJSON plugin
     },
+    token: {
+      type: String,
+      required: false,
+    },
   },
+
   {
     timestamps: true,
   }
 );
+
+/**
+ * Generate auth token
+ * @returns {Promise<string>}
+ */
+userSchema.methods.generateAuthToken = async function (email, password) {
+  const user = this;
+  const token = jwt.sign({ _id: user._id }, "demoProject", {
+    expiresIn: "7d",
+  });
+  user.token = token;
+  await user.save();
+  return token;
+};
 
 /**
  * Check if email is taken

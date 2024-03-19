@@ -1,5 +1,5 @@
 const httpStatus = require("http-status");
-const userServices = require("../services/userServices");
+const { userServices } = require("../services/index");
 const catchAsync = require("../utils/catchAsync");
 
 // Get all users
@@ -34,6 +34,7 @@ const createUser = catchAsync(async (req, res, next) => {
     const user = await userServices.createUser(req.body);
     res.json(user);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 });

@@ -8,6 +8,7 @@ const compression = require("compression");
 const cors = require("cors");
 const helmet = require("helmet");
 const apiErrorHandler = require("./middleware/apiErrorHandler");
+const process = require("process");
 
 // Secure apps by setting various HTTP headers
 app.use(helmet());

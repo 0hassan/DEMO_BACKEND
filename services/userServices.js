@@ -29,6 +29,7 @@ const createUser = async (userBody) => {
     const user = await User.create(userBody);
     return user;
   } catch (err) {
+    console.log(err);
     throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
   }
 };
@@ -41,6 +42,23 @@ const createUser = async (userBody) => {
 const getUserByEmail = async (email) => {
   try {
     const user = await User.findOne({ email });
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+    }
+    return user;
+  } catch (error) {
+    throw error; // Re-throw the error to propagate it further
+  }
+};
+
+/**
+ * Get user by id
+ * @param {string} id
+ * @returns {Promise<User>}
+ */
+const getUserById = async (id) => {
+  try {
+    const user = await User.findById(id);
     if (!user) {
       throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     }
@@ -92,4 +110,5 @@ module.exports = {
   getUserByEmail,
   updateUser,
   deleteUser,
+  getUserById,
 };

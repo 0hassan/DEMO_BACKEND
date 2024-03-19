@@ -15,6 +15,6 @@ router
 router
   .route("/")
   .get(userController.getAllUsers)
-  .post(userController.createUser);
+  .post(validate(userValidation.createUser), userController.createUser);
 
 module.exports = router;
