@@ -4,18 +4,19 @@ const { userServices } = require("../services");
 const { User } = require("../models");
 
 module.exports = async (req, res, next) => {
-  // Get token from header
-  const token = req.headers.authorization.replace("Bearer ", "");
-
-  // Check if not token
-  if (!token) {
-    return res
-      .status(httpStatus.UNAUTHORIZED)
-      .json({ message: "No token, authorization denied" });
-  }
-
-  // Verify token
   try {
+    // Get token from header
+    const token = req.headers.authorization.replace("Bearer ", "");
+
+    // Check if not token
+    if (!token) {
+      return res
+        .status(httpStatus.UNAUTHORIZED)
+        .json({ message: "No token, authorization denied" });
+    }
+
+    // Verify token
+
     const decoded = jwt.verify(token, "demoProject");
     req.userData = decoded;
 
