@@ -23,20 +23,20 @@ const userSchema = mongoose.Schema(
         }
       },
     },
-    password: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 8,
-      validate(value) {
-        if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
-          throw new Error(
-            "Password must contain at least one letter and one number"
-          );
-        }
-      },
-      private: true, // used by the toJSON plugin
-    },
+    // password: {
+    //   type: String,
+    //   required: true,
+    //   trim: true,
+    //   minlength: 8,
+    //   validate(value) {
+    //     if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
+    //       throw new Error(
+    //         "Password must contain at least one letter and one number"
+    //       );
+    //     }
+    //   },
+    //   private: true, // used by the toJSON plugin
+    // },
     token: {
       type: String,
       required: false,
@@ -78,10 +78,10 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
  * @param {string} password
  * @returns {Promise<boolean>}
  */
-userSchema.methods.isPasswordMatch = async function (password) {
-  const user = this;
-  return bcrypt.compare(password, user.password);
-};
+// userSchema.methods.isPasswordMatch = async function (password) {
+//   const user = this;
+//   return bcrypt.compare(password, user.password);
+// };
 
 userSchema.pre("save", async function (next) {
   const user = this;

@@ -8,10 +8,18 @@ const compression = require("compression");
 const cors = require("cors");
 const helmet = require("helmet");
 const apiErrorHandler = require("./middleware/apiErrorHandler");
-const process = require("process");
+const http = require("http");
+const dotenv = require("dotenv");
+const logger = require("morgan");
+
+// Auth0 middleware
+const { auth } = require("./middleware/auth");
+
+dotenv.config();
 
 // Secure apps by setting various HTTP headers
 app.use(helmet());
+app.use(logger("dev"));
 
 // Parse JSON and url-encoded query
 app.use(express.json());
@@ -27,6 +35,16 @@ app.use(compression());
 // Enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 app.options("*", cors());
+
+// Auth0 middleware
+app.use(auth);
+
+// Middleware to make the `user` object available for all views
+app.use(function (req, res, next) {
+  res.locals.user = req.oidc.user;
+  res.locals.accessToken = req.oidc.accessToken;
+  next();
+});
 
 // Routes
 app.use("/", routes);

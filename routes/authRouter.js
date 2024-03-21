@@ -15,7 +15,7 @@ router
   .post(validate(authValidation.register), authController.register);
 router
   .route("/logout")
-  .post(validate(authValidation.logout), auth, authController.logout);
+  .post(validate(authValidation.logout), authController.logout);
 router
   .route("/forgot-password")
   .post(validate(authValidation.forgotPassword), authController.forgotPassword);
