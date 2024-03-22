@@ -12,7 +12,7 @@ const getUsers = {};
 
 const getUser = {
   params: Joi.object().keys({
-    email: Joi.string().required().email(),
+    user_id: Joi.string().required(),
   }),
 };
 

@@ -1,8 +1,12 @@
 {
   "dependencies": {
+    "@bull-board/api": "^5.15.1",
+    "@bull-board/express": "^5.15.1",
+    "@bull-board/ui": "^5.15.1",
     "auth0": "^4.3.1",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
+    "bull": "^4.12.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

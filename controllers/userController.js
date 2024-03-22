@@ -4,6 +4,8 @@ const catchAsync = require("../utils/catchAsync");
 
 const auth0utils = require("../utils/auth0utils");
 const auth0lib = require("../utils/auth0lib");
+const bullServices = require("../services/bullServices");
+const ApiError = require("../utils/apiError");
 
 // Get all users
 // GET /users
@@ -33,18 +35,19 @@ const getUserByEmail = async (req, res, next) => {
   }
 };
 
-// Create a new user
+// Create a new user in local db then on auth0 server and generate change password link
+// using email
 // POST /users
 // Public
 const createUser = catchAsync(async (req, res, next) => {
   try {
+    console.log(req.body);
     const user1 = await userServices.createUser(req.body);
-    const user = await auth0lib.createUser(req.body);
-    auth0utils.changePassword(req.body.email);
+    bullServices.createUserOnAuth0Queue.add(req.body);
     res.json(user1);
   } catch (error) {
     console.log(error);
-    next(error);
+    next(new ApiError(httpStatus.BAD_REQUEST, error.message));
   }
 });
 
@@ -65,9 +68,8 @@ const updateUser = async (req, res, next) => {
 // Public
 const deleteUser = async (req, res, next) => {
   try {
-    const user1 = await userServices.deleteUser(req.params.email);
-    const user = await auth0lib.deleteUser("auth0|65fc0d7fc16d359feea4af19");
-
+    const user1 = await userServices.deleteUser("tahirniacci009@gmail.com");
+    auth0lib.deleteUser(req.params.user_id);
     res.status(httpStatus.NO_CONTENT).send("Deleted successfully");
   } catch (error) {
     next(error);

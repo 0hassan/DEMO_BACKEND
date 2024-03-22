@@ -12,8 +12,8 @@ dotenv.config();
 // });
 
 const management = new ManagementClient({
-  domain: "dev-vk8f1oa2fnt1m70d.us.auth0.com",
-  token: process.env.TOKEN,
+  domain: process.env.API_DOMAIN,
+  token: process.env.API_TOKEN,
 });
 
 // Get users from Auth0
@@ -97,11 +97,10 @@ const getAUser = async (id) => {
 // Delete a user from Auth0
 const deleteUser = async (id) => {
   try {
-    const user = await management.users.delete({ id });
-    return user;
+    return await management.users.delete({ id });
   } catch (error) {
     console.error(error);
-    return;
+    return error;
   }
 };
 

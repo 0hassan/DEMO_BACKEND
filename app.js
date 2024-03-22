@@ -46,8 +46,11 @@ app.use(function (req, res, next) {
   next();
 });
 
+const { serverAdapter } = require("./services/bullServices");
+
 // Routes
 app.use("/", routes);
+app.use("/admin/queues", serverAdapter.getRouter());
 
 // send back a 500 error for any internal errors
 app.use(apiErrorHandler);

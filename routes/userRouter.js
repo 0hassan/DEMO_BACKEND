@@ -8,7 +8,7 @@ const { auth, requiresAuth } = require("../middleware/auth");
 const { userController } = require("../controllers/index");
 
 router
-  .route("/:email")
+  .route("/:user_id")
   .get(validate(userValidation.getUser), userController.getUserByEmail)
   .put(userController.updateUser)
   .delete(userController.deleteUser);
