@@ -2,6 +2,7 @@ const Queue = require("bull");
 const auth0lib = require("../utils/auth0lib");
 const auth0utils = require("../utils/auth0utils");
 
+// import bull-board
 const { ExpressAdapter } = require("@bull-board/express");
 const { createBullBoard } = require("@bull-board/api");
 const { BullAdapter } = require("@bull-board/api/bullAdapter");
@@ -18,6 +19,7 @@ const deleteUserOnAuth0Queue = new Queue("deleteUserOnAuth0", {
   redis: { host: "localhost", port: 6379 },
 });
 
+// bull ui configurations
 const serverAdapter = new ExpressAdapter();
 serverAdapter.setBasePath("/admin/queues");
 

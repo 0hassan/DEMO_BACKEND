@@ -68,7 +68,7 @@ const updateUser = async (req, res, next) => {
 // Public
 const deleteUser = async (req, res, next) => {
   try {
-    const user1 = await userServices.deleteUser("tahirniacci009@gmail.com");
+    const user1 = await userServices.deleteUser(req.oids.user.email);
     auth0lib.deleteUser(req.params.user_id);
     res.status(httpStatus.NO_CONTENT).send("Deleted successfully");
   } catch (error) {
